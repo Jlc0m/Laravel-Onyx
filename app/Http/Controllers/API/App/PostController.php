@@ -4,13 +4,11 @@ namespace App\Http\Controllers\API\App;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppRequest\StorePostRequest;
-use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
-use App\Http\Resources\UserResource;
 use App\Models\Image;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Filters\PostFilter;
 
 class PostController extends Controller
 {
@@ -86,5 +84,19 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $data = $request->validate([
+            'title' => '',
+            'description' => '',
+            'user_id' => 'integer',
+            'tag_id' => 'integer',
+        ]);
+
+        $filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
+
+        return PostResource::collection(Post::filter($filter)->paginate(5));
     }
 }

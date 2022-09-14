@@ -25,6 +25,14 @@ Route::get('/profile', [UserController::class, 'profile'])->middleware('auth:api
 
 Route::resource('/posts', PostController::class)->middleware('auth:api');
 
+Route::get('/search', [PostController::class, 'search']);
+
+
+
+
+
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
