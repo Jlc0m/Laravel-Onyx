@@ -6,19 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StorePostRequest extends FormRequest
+class FilterRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
     public function authorize()
-    {   
-        if (auth()->user()) {
-            return true;
-        }
+    {
+        return true;
     }
 
     /**
@@ -29,10 +26,11 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'min:10', 'max:150'],
-            'description' => ['required', 'min:10', 'max:5000'],
-            'images.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'published' => ['boolean'],
+            'title' => '',
+            'description' => '',
+            'published' => '',
+            'user_id' => 'integer',
+            'tag_id' => 'integer',
         ];
     }
 
@@ -41,7 +39,7 @@ class StorePostRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success'   => false,
             'message'   => 'Validation errors',
-            'data'      => $validator->errors()
-        ], 422));
+            'data'      => $validator->errors(),
+        ]));
     }
 }

@@ -9,6 +9,8 @@ use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Filters\PostFilter;
+use App\Http\Requests\AppRequest\FilterRequest;
+use App\Http\Requests\AppRequest\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -70,7 +72,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
         //
     }
@@ -86,14 +88,9 @@ class PostController extends Controller
         //
     }
 
-    public function search(Request $request)
+    public function search(FilterRequest $request)
     {
-        $data = $request->validate([
-            'title' => '',
-            'description' => '',
-            'user_id' => 'integer',
-            'tag_id' => 'integer',
-        ]);
+        $data = $request->validated();
 
         $filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
 

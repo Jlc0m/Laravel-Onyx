@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -19,6 +20,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'published' => $this->published,
+            'author' => UserResource::make($this->user),
             'images' => ImageResource::collection($this->images),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

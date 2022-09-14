@@ -12,7 +12,7 @@ class Post extends Model
     use Filterable;
 
     protected $fillable = [
-        'title', 
+        'title',
         'description',
         'published',
         'user_id',
@@ -21,6 +21,11 @@ class Post extends Model
     public function images()
     {
         return $this->hasMany(Image::class, 'post_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 }

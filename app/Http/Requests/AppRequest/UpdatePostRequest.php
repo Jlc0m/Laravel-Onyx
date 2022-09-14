@@ -13,7 +13,9 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if ($this->post->user_id == auth()->user()->id) {
+            return true;
+        }
     }
 
     /**
@@ -24,7 +26,10 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            
+            'title' => ['required', 'min:10', 'max:150'],
+            'description' => ['required', 'min:10', 'max:5000'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'published' => ['boolean'],
         ];
     }
 }
