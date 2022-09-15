@@ -50,7 +50,7 @@ class PostController extends Controller
         }
 
         return response()->json([
-            'Success' => true,
+            'success' => true,
         ]);
     }
 
@@ -85,7 +85,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->findOrFail($post->id)->delete();
+
+        return response()->json([
+            'success' => true,
+            'data' => $post,
+        ]);
     }
 
     public function search(FilterRequest $request)
